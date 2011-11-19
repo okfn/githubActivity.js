@@ -1,0 +1,52 @@
+.github-activity {
+  font-size: 80%;
+  background: #fff;
+  border: 1px solid #777;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.github-activity.loading {
+  background: #333 url(img/spinner.gif) no-repeat 50% 50%;
+  min-height: 50px;
+}
+
+.github-activity .event {
+  margin: 0 8px 8px 8px;
+}
+
+.github-activity .event:first-child {
+  margin: 8px;
+}
+
+.github-activity p {
+  margin: 0;
+  padding: 0;
+}
+
+.github-activity .event p.title {
+  color: #666;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  background-color: #f1f1f1;
+  background-image: -moz-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: -ms-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: -o-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#e1e1e1)); 
+  background-image: -webkit-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: linear-gradient(top, #f1f1f1, #e1e1e1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f1f1f1', EndColorStr='#e1e1e1');
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+  line-height: 20px;
+}
+
+.github-activity .event p.title img {
+  vertical-align: middle;
+}
+
+.github-activity .event p.details {
+  color: #555;
+}
+

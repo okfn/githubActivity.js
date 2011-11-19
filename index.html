@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+  <title></title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="https://raw.github.com/documentcloud/underscore/master/underscore-min.js"></script>
+
+  <link rel="stylesheet" href="githubActivity.css">
+  <script src="githubActivity.js"></script>
+</head>
+<body>
+  
+  <div id="github-activity" style="width: 400px"></div>
+  <script>
+    $('#github-activity').githubActivity({
+      "repos": ["okfn/dashboard", "okfn/openspending"]
+    });
+  </script>
+</body>
+</html>
