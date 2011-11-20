@@ -164,7 +164,7 @@ eventHelpers =
     """
 
 class GithubActivity
-  constructor: (@element, @repos) ->
+  constructor: (@element, @repos, @options) ->
     @data =
       repoEvents: {}
 
@@ -197,7 +197,7 @@ class GithubActivity
     @allEvents = _.sortBy(@allEvents, (e) -> e.created_at).reverse()
 
     $(@element).removeClass('loading')
-    this.drawEvents @allEvents[0...10]
+    this.drawEvents @allEvents[0...(@options.events or 10)]
 
   drawEvents: (events) ->
     for e in events
@@ -208,6 +208,6 @@ jQuery.fn.githubActivity = (options) ->
     console.error "GithubActivity plugin needs 'repos' key!"
     return this
 
-  new GithubActivity(this, options['repos'])
+  new GithubActivity(this, options['repos'], options)
 
   return this

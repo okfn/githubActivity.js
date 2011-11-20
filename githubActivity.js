@@ -171,10 +171,11 @@
     }
   };
   GithubActivity = (function() {
-    function GithubActivity(element, repos) {
+    function GithubActivity(element, repos, options) {
       var r, _i, _len, _ref;
       this.element = element;
       this.repos = repos;
+      this.options = options;
       this.data = {
         repoEvents: {}
       };
@@ -219,7 +220,7 @@
         return e.created_at;
       }).reverse();
       $(this.element).removeClass('loading');
-      return this.drawEvents(this.allEvents.slice(0, 10));
+      return this.drawEvents(this.allEvents.slice(0, this.options.events || 10));
     };
     GithubActivity.prototype.drawEvents = function(events) {
       var e, _i, _len, _results;
@@ -237,7 +238,7 @@
       console.error("GithubActivity plugin needs 'repos' key!");
       return this;
     }
-    new GithubActivity(this, options['repos']);
+    new GithubActivity(this, options['repos'], options);
     return this;
   };
 }).call(this);
