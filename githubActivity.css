@@ -55,6 +55,7 @@
   width: 12%;
   padding-right: 2%;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .github-activity .event p.title .what {
