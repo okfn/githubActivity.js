@@ -37,6 +37,62 @@
         o += "&hellip;";
       }
       return o;
+    },
+    humanTime: function(date) {
+      var days, del, hours, mins, now, secs;
+      now = new Date();
+      del = now - date;
+      secs = del / 1000;
+      if (secs < 5) {
+        return "just now";
+      }
+      if (secs < 60) {
+        return "" + (Math.floor(secs)) + "s ago";
+      }
+      mins = secs / 60;
+      if (mins < 60) {
+        return "" + (Math.floor(mins)) + "m ago";
+      }
+      hours = mins / 60;
+      if (hours < 24) {
+        return "" + (Math.floor(hours)) + "h ago";
+      }
+      days = hours / 24;
+      return "" + (Math.floor(days)) + "d ago";
+    },
+    parseISO8601: function(string) {
+      var d, date, offset, out, regexp, time;
+      regexp = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" + "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(.([0-9]+))?)?" + "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
+      d = string.match(new RegExp(regexp));
+      offset = 0;
+      date = new Date(d[1], 0, 1);
+      if (d[3]) {
+        date.setMonth(d[3] - 1);
+      }
+      if (d[5]) {
+        date.setDate(d[5]);
+      }
+      if (d[7]) {
+        date.setHours(d[7]);
+      }
+      if (d[8]) {
+        date.setMinutes(d[8]);
+      }
+      if (d[10]) {
+        date.setSeconds(d[10]);
+      }
+      if (d[12]) {
+        date.setMilliseconds(Number("0." + d[12]) * 1000);
+      }
+      if (d[14]) {
+        offset = (Number(d[16]) * 60) + Number(d[17]);
+        offset *= (d[15] === "-" ? 1 : -1);
+      }
+      offset -= date.getTimezoneOffset();
+      time = Number(date) + (offset * 60 * 1000);
+      out = new Date();
+      out.setTime(Number(time));
+      return out;
     }
   };
   eventHelpers = {
@@ -71,12 +127,13 @@
       }
     },
     titleForIssueCommentEvent: function(ev) {
-      return "commented on \n<a href='" + ev.payload.issue.html_url + "\#issuecomment-" + ev.payload.comment.id + "'>\n  issue " + ev.payload.issue.number + "</a>\non " + (eventHelpers.repo(ev));
+      return "commented on\n<a href='" + ev.payload.issue.html_url + "\#issuecomment-" + ev.payload.comment.id + "'>\n  issue " + ev.payload.issue.number + "</a>\non " + (eventHelpers.repo(ev));
     },
     title: function(ev) {
-      var t;
+      var eventWhen, t;
       t = eventHelpers["titleFor" + ev.type] || eventHelpers.titleForDefault;
-      return "" + (eventHelpers.who(ev)) + " " + (t(ev));
+      eventWhen = util.humanTime(util.parseISO8601(ev.created_at));
+      return "<span class='when'>" + eventWhen + "</span>\n<span class='what'>\n  " + (eventHelpers.who(ev)) + "\n  " + (t(ev)) + "\n</span>";
     },
     detailsForDefault: function(ev) {
       return "More " + ev.type + " details here &hellip;";
@@ -122,6 +179,7 @@
         repoEvents: {}
       };
       $(this.element).addClass('github-activity').addClass('loading');
+      this.wrapper = $("<div class='events-wrapper'></div>").appendTo(this.element)[0];
       _ref = this.repos;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         r = _ref[_i];
@@ -165,11 +223,10 @@
     };
     GithubActivity.prototype.drawEvents = function(events) {
       var e, _i, _len, _results;
-      console.log(events);
       _results = [];
       for (_i = 0, _len = events.length; _i < _len; _i++) {
         e = events[_i];
-        _results.push($(eventHelpers.render(e)).appendTo(this.element));
+        _results.push($(eventHelpers.render(e)).appendTo(this.wrapper));
       }
       return _results;
     };
