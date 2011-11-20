@@ -1,5 +1,5 @@
 (function() {
-  var $, GITHUB, GITHUB_ACTIONS, GITHUB_API, GithubActivity, PFX, eventHelpers, getRepoEventsData, makeLastManInCheck, util;
+  var $, GITHUB, GITHUB_API, GithubActivity, PFX, eventHelpers, getRepoEventsData, makeLastManInCheck, util;
   if (!(typeof jQuery !== "undefined" && jQuery !== null)) {
     console.warn("GithubActivity requires jQuery!");
   }
@@ -10,20 +10,16 @@
   PFX = "githubActivity";
   GITHUB = 'https://github.com';
   GITHUB_API = 'https://api.github.com';
-  GITHUB_ACTIONS = {
-    IssuesEvent: 'an issue',
-    WatchEvent: 'watching a repo'
-  };
   getRepoEventsData = function(repo, cb) {
     if (cb == null) {
       cb = (function() {});
     }
-    return $.getJSON("" + GITHUB_API + "/repos/" + repo + "/events", null, cb);
+    return $.getJSON("" + GITHUB_API + "/repos/" + repo + "/events?callback=?", null, cb);
   };
   makeLastManInCheck = function(gaObj, repo, kind) {
     var lmic;
     lmic = function(data, textStatus, jqXHR) {
-      gaObj.registerData(repo, kind, data);
+      gaObj.registerData(repo, kind, data.data);
       if (gaObj.ready()) {
         return gaObj.go();
       }

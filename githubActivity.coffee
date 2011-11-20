@@ -12,11 +12,11 @@ GITHUB = 'https://github.com'
 GITHUB_API = 'https://api.github.com'
 
 getRepoEventsData = (repo, cb=(->)) ->
-  $.getJSON "#{GITHUB_API}/repos/#{repo}/events", null, cb
+  $.getJSON "#{GITHUB_API}/repos/#{repo}/events?callback=?", null, cb
 
 makeLastManInCheck = (gaObj, repo, kind) ->
   lmic = (data, textStatus, jqXHR) ->
-    gaObj.registerData(repo, kind, data)
+    gaObj.registerData(repo, kind, data.data)
     
     if gaObj.ready()
       gaObj.go()
