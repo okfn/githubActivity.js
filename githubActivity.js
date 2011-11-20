@@ -91,7 +91,7 @@
       _ref = ev.payload.commits.slice(0, maxCommits);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         c = _ref[_i];
-        o.push("<a href='" + c.url + "'>" + c.sha.slice(0, 7) + "</a>: " + (util.truncate(c.message)));
+        o.push("<a href='" + (eventHelpers.repoUrl(ev)) + "/commit/" + c.sha + "'>" + c.sha.slice(0, 7) + "</a>: " + (util.truncate(c.message)));
       }
       if (ev.payload.commits.length > maxCommits) {
         o.push("and " + (ev.payload.commits.length - maxCommits) + " more&hellip;");
@@ -99,7 +99,7 @@
       return o.join("<br>");
     },
     detailsForIssuesEvent: function(ev) {
-      return "<a href='" + ev.payload.issue.url + "'>Issue " + ev.payload.issue.number + "</a>: \n" + (util.truncate(ev.payload.issue.title));
+      return "<a href='" + ev.payload.issue.html_url + "'>Issue " + ev.payload.issue.number + "</a>:\n" + (util.truncate(ev.payload.issue.title));
     },
     detailsForIssueCommentEvent: function(ev) {
       return util.truncate(ev.payload.comment.body);

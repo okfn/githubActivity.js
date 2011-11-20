@@ -85,7 +85,7 @@ eventHelpers =
     o = []
 
     for c in ev.payload.commits[0...maxCommits]
-      o.push "<a href='#{c.url}'>#{c.sha[0...7]}</a>: #{util.truncate(c.message)}"
+      o.push "<a href='#{eventHelpers.repoUrl(ev)}/commit/#{c.sha}'>#{c.sha[0...7]}</a>: #{util.truncate(c.message)}"
   
     if ev.payload.commits.length > maxCommits
       o.push "and #{ev.payload.commits.length - maxCommits} more&hellip;"
@@ -94,7 +94,7 @@ eventHelpers =
 
   detailsForIssuesEvent: (ev) ->
     """
-    <a href='#{ev.payload.issue.url}'>Issue #{ev.payload.issue.number}</a>: 
+    <a href='#{ev.payload.issue.html_url}'>Issue #{ev.payload.issue.number}</a>:
     #{util.truncate(ev.payload.issue.title)}
     """
 
