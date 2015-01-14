@@ -214,7 +214,16 @@
       _ref = this.repos;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         r = _ref[_i];
-        this.allEvents = this.allEvents.concat(this.data.repoEvents[r]);
+        re = this.data.repoEvents[r]
+        if (typeof(re.message) !== 'undefined') {
+          if (re.message === 'Not Found') {
+            console.warn("GithubActivity: " + r + " is not a valid repo!");
+          } else {
+            console.error(re.message);
+          }
+        } else {
+          this.allEvents = this.allEvents.concat(re);
+        }
       }
       this.allEvents = _.sortBy(this.allEvents, function(e) {
         return e.created_at;
