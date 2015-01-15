@@ -97,7 +97,7 @@
   };
   eventHelpers = {
     who: function(ev) {
-      return "<img src='http://www.gravatar.com/avatar/" + ev.actor.gravatar_id + "?s=20'>\n<a href='" + GITHUB + "/" + ev.actor.login + "'>" + ev.actor.login + "</a>";
+      return "<img src='" + ev.actor.avatar_url + "s=20'>\n<a href='" + GITHUB + "/" + ev.actor.login + "'>" + ev.actor.login + "</a>";
     },
     repoUrl: function(ev) {
       return "" + GITHUB + "/" + ev.repo.name;
