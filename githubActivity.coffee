@@ -76,7 +76,7 @@ util =
 eventHelpers =
   who: (ev) ->
     """
-    <img src='http://www.gravatar.com/avatar/#{ev.actor.gravatar_id}?s=20'>
+    <img src='#{ev.actor.avatar_url}s=20'>
     <a href='#{GITHUB}/#{ev.actor.login}'>#{ev.actor.login}</a>
     """
 
@@ -192,7 +192,14 @@ class GithubActivity
     @allEvents = []
 
     for r in @repos
-      @allEvents = @allEvents.concat(@data.repoEvents[r])
+      re = @data.repoEvents[r]
+      if re.message?
+        if re.message == 'Not Found'
+          console.warn "GithubActivity: #{r} is not a valid repo!"
+        else
+          console.error re.message
+      else
+        @allEvents = @allEvents.concat(re)
 
     @allEvents = _.sortBy(@allEvents, (e) -> e.created_at).reverse()
 

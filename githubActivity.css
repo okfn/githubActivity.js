@@ -70,6 +70,7 @@
 
 .github-activity .event p.title img {
   vertical-align: middle;
+  width: 20px;
 }
 
 .github-activity .event p.details {
